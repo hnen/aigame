@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>5x5 Grid</title>
+    <style>
+        td {
+            width: 150px;
+            height: 150px;
+            border: 1px solid black;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 100px;
+        }
+
+        #grid {
+            border-collapse: collapse;
+        }
+
+        #message {
+            text-align: center;
+            font-size: 30px;
+        }
+
+        #button {
+            text-align: center;
+        }
+
+    </style>
+    <script>
+        var grid = [
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0]
+        ];
+
+        var turn = "X";
+        var gameover = false;
+
+        function checkForWinner() {
+            // check rows
+            for (var i = 0; i < 5; i++) {
+                if (grid[i][0] == turn && grid[i][1] == turn && grid[i][2] == turn && grid[i][3] == turn && grid[i][4] == turn) {
+                    // winner!
+                    gameover = true;
+                    // turn all 5 td's red
+                    for (var j = 0; j < 5; j++) {
+                        document.getElementById(i + "_" + j).style.backgroundColor = "red";
+                    }
+                    break;
+                }
+            }
+
+            // check columns
+            for (var j = 0; j < 5; j++) {
+                if (grid[0][j] == turn && grid[1][j] == turn && grid[2][j] == turn && grid[3][j] == turn && grid[4][j] == turn) {
+                    // winner!
+                    gameover = true;
+                    // turn all 5 td's red
+                    for (var i = 0; i < 5; i++) {
+                        document.getElementById(i + "_" + j).style.backgroundColor = "red";
+                    }
+                    break;
+                }
+            }
+
+            // check diagonals
+            if (grid[0][0] == turn && grid[1][1] == turn && grid[2][2] == turn && grid[3][3] == turn && grid[4][4] == turn) {
+                // winner!
+                gameover = true;
+                // turn all 5 td's red
+                for (var i = 0; i < 5; i++) {
+                    document.getElementById(i + "_" + i).style.backgroundColor = "red";
+                }
+            }
+
+            if (grid[4][0] == turn && grid[3][1] == turn && grid[2][2] == turn && grid[1][3] == turn && grid[0][4] == turn) {
+                // winner!
+                gameover = true;
+                // turn all 5 td's red
+                for (var i = 0; i < 5; i++) {
+                    document.getElementById((4 - i) + "_" + i).style.backgroundColor = "red";
+                }
+            }
+
+            if (gameover) {
+                document.getElementById("message").innerHTML = "Game over";
+                document.body.style.backgroundColor = "grey";
+            }
+        }
+
+        function newGame() {
+            // reload page to start new game
+            location.reload();
+        }
+
+        function cellClicked(row, col) {
+            if (gameover) {
+                return;
+            }
+
+            if (grid[row][col] == 0) {
+                // player can go here
+                grid[row][col] = turn;
+
+                // update td with player's symbol
+                document.getElementById(row + "_" + col).innerHTML = turn;
+
+                // check for winner
+                checkForWinner();
+
+                // switch player
+                if (turn == "X") {
+                    turn = "O";
+                } else {
+                    turn = "X";
+                }
+
+                // update message
+                document.getElementById("message").innerHTML = turn + " 's turn";
+            }
+        }
+
+        function cellHovered(row, col) {
+            if (gameover) {
+                return;
+            }
+
+            if (grid[row][col] == 0) {
+                // player can go here
+                // change background color to grey
+                document.getElementById(row + "_" + col).style.backgroundColor = "grey";
+            }
+        }
+
+        function cellUnhovered(row, col) {
+            if (gameover) {
+                return;
+            }
+
+            if (grid[row][col] == 0) {
+                // player can go here
+                // change background color to white
+                document.getElementById(row + "_" + col).style.backgroundColor = "white";
+            }
+        }
+
+    </script>
+</head>
+<body>
+
+<table id="grid">
+    <tr>
+        <td id="0_0" onclick="cellClicked(0, 0)" onmouseover="cellHovered(0, 0)" onmouseout="cellUnhovered(0, 0)"></td>
+        <td id="0_1" onclick="cellClicked(0, 1)" onmouseover="cellHovered(0, 1)" onmouseout="cellUnhovered(0, 1)"></td>
+        <td id="0_2" onclick="cellClicked(0, 2)" onmouseover="cellHovered(0, 2)" onmouseout="cellUnhovered(0, 2)"></td>
+        <td id="0_3" onclick="cellClicked(0, 3)" onmouseover="cellHovered(0, 3)" onmouseout="cellUnhovered(0, 3)"></td>
+        <td id="0_4" onclick="cellClicked(0, 4)" onmouseover="cellHovered(0, 4)" onmouseout="cellUnhovered(0, 4)"></td>
+    </tr>
+    <tr>
+        <td id="1_0" onclick="cellClicked(1, 0)" onmouseover="cellHovered(1, 0)" onmouseout="cellUnhovered(1, 0)"></td>
+        <td id="1_1" onclick="cellClicked(1, 1)" onmouseover="cellHovered(1, 1)" onmouseout="cellUnhovered(1, 1)"></td>
+        <td id="1_2" onclick="cellClicked(1, 2)" onmouseover="cellHovered(1, 2)" onmouseout="cellUnhovered(1, 2)"></td>
+        <td id="1_3" onclick="cellClicked(1, 3)" onmouseover="cellHovered(1, 3)" onmouseout="cellUnhovered(1, 3)"></td>
+        <td id="1_4" onclick="cellClicked(1, 4)" onmouseover="cellHovered(1, 4)" onmouseout="cellUnhovered(1, 4)"></td>
+    </tr>
+    <tr>
+        <td id="2_0" onclick="cellClicked(2, 0)" onmouseover="cellHovered(2, 0)" onmouseout="cellUnhovered(2, 0)"></td>
+        <td id="2_1" onclick="cellClicked(2, 1)" onmouseover="cellHovered(2, 1)" onmouseout="cellUnhovered(2, 1)"></td>
+        <td id="2_2" onclick="cellClicked(2, 2)" onmouseover="cellHovered(2, 2)" onmouseout="cellUnhovered(2, 2)"></td>
+        <td id="2_3" onclick="cellClicked(2, 3)" onmouseover="cellHovered(2, 3)" onmouseout="cellUnhovered(2, 3)"></td>
+        <td id="2_4" onclick="cellClicked(2, 4)" onmouseover="cellHovered(2, 4)" onmouseout="cellUnhovered(2, 4)"></td>
+    </tr>
+    <tr>
+        <td id="3_0" onclick="cellClicked(3, 0)" onmouseover="cellHovered(3, 0)" onmouseout="cellUnhovered(3, 0)"></td>
+        <td id="3_1" onclick="cellClicked(3, 1)" onmouseover="cellHovered(3, 1)" onmouseout="cellUnhovered(3, 1)"></td>
+        <td id="3_2" onclick="cellClicked(3, 2)" onmouseover="cellHovered(3, 2)" onmouseout="cellUnhovered(3, 2)"></td>
+        <td id="3_3" onclick="cellClicked(3, 3)" onmouseover="cellHovered(3, 3)" onmouseout="cellUnhovered(3, 3)"></td>
+        <td id="3_4" onclick="cellClicked(3, 4)" onmouseover="cellHovered(3, 4)" onmouseout="cellUnhovered(3, 4)"></td>
+    </tr>
+    <tr>
+        <td id="4_0" onclick="cellClicked(4, 0)" onmouseover="cellHovered(4, 0)" onmouseout="cellUnhovered(4, 0)"></td>
+        <td id="4_1" onclick="cellClicked(4, 1)" onmouseover="cellHovered(4, 1)" onmouseout="cellUnhovered(4, 1)"></td>
+        <td id="4_2" onclick="cellClicked(4, 2)" onmouseover="cellHovered(4, 2)" onmouseout="cellUnhovered(4, 2)"></td>
+        <td id="4_3" onclick="cellClicked(4, 3)" onmouseover="cellHovered(4, 3)" onmouseout="cellUnhovered(4, 3)"></td>
+        <td id="4_4" onclick="cellClicked(4, 4)" onmouseover="cellHovered(4, 4)" onmouseout="cellUnhovered(4, 4)"></td>
+    </tr>
+</table>
+
+<div id="message">X's turn</div>
+
+<div id="button"><input type="button" value="New Game" onclick="newGame()"/></div>
+
+</body>
+</html>
